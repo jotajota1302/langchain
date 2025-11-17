@@ -632,7 +632,7 @@ ORACLE_CONFIG = {
         print(f"❌ Error al inicializar el agente: {e}")
         print("\n⚠️  Asegúrate de que Ollama está ejecutándose:")
         print("   ollama serve")
-        print("   ollama pull llama2")
+        print("   ollama pull qwen3:4b")
         return
 
     # Loop de conversación

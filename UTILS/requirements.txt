@@ -1,12 +1,13 @@
-# Dependencias para el agente LangChain + Ollama
+# Dependencias para el agente LangChain + Claude/Ollama
 
 # LangChain Core (versiones actualizadas)
 langchain>=0.3.0
 langchain-community>=0.3.0
 langchain-core>=0.3.0
 
-# Ollama para modelos locales
-ollama>=0.1.6
+# Modelos LLM
+ollama>=0.1.6  # Ollama para modelos locales
+langchain-anthropic>=1.0.0  # Claude (Anthropic)
 
 # Dependencias adicionales
 requests>=2.31.0
