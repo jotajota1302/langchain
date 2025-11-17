@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environment variables
+.env
+.env.local
+
+# Logs
+*.log
+
+# Claude Code
+.claude/
+
+# Archivos temporales
+*.tmp
+*.bak
+*.cache
+
+# Outputs generados (opcional - comenta si quieres subirlos)
+# OUTPUT/*.xlsx
+# OUTPUT/*.pdf
+
+# Archivos de entrada sensibles (opcional - comenta si quieres subirlos)
+# INPUT/*.docx
+# INPUT/*.pdf
+
+# Texto extraído temporal
+UTILS/texto_extraido.txt

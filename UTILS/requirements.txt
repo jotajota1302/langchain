@@ -1,0 +1,13 @@
+# Dependencias para el agente LangChain + Ollama
+
+# LangChain Core (versiones actualizadas)
+langchain>=0.3.0
+langchain-community>=0.3.0
+langchain-core>=0.3.0
+
+# Ollama para modelos locales
+ollama>=0.1.6
+
+# Dependencias adicionales
+requests>=2.31.0
+pydantic>=2.5.0
