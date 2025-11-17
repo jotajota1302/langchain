@@ -482,7 +482,7 @@ def crear_agente():
     # 1. Inicializar el modelo local de Ollama
     print("🔧 Inicializando modelo Ollama...")
     llm = Ollama(
-        model="qwen2.5:3b",  # Modelo Qwen instalado
+        model="qwen3:4b",  # Modelo Qwen más rápido
         temperature=0.3,  # Baja temperatura para respuestas más precisas
     )
 
@@ -525,40 +525,29 @@ def crear_agente():
         )
     ]
 
-    # 3. Crear el prompt template (cargando desde archivo)
-    prompt_path = os.path.join(PROJECT_ROOT, 'PROMPTS', 'agente-oracle-analista.md')
+    # 3. Crear el prompt template (simplificado para mejor rendimiento)
+    template = """Eres un analista experto de bases de datos Oracle. Solo puedes LEER datos, NUNCA modificar.
 
-    try:
-        with open(prompt_path, 'r', encoding='utf-8') as f:
-            prompt_content = f.read()
-    except:
-        prompt_content = "Eres un analista experto de bases de datos Oracle."
+Tienes estas herramientas:
+{tools}
 
-    template = f"""{prompt_content}
+Herramientas disponibles: {tool_names}
 
-Herramientas disponibles:
-{{tools}}
+Formato de respuesta:
 
-Nombres de herramientas: {{tool_names}}
+Pregunta: la pregunta
+Pensamiento: qué hacer
+Acción: herramienta a usar [{tool_names}]
+Entrada de Acción: parámetros
+Observación: resultado
+... (repetir si necesario)
+Pensamiento: tengo la respuesta
+Respuesta Final: respuesta clara
 
-Para responder, usa este formato:
+Historial: {chat_history}
 
-Pregunta: la pregunta de entrada
-Pensamiento: analiza qué herramienta usar
-Acción: nombre de la herramienta a usar [{{tool_names}}]
-Entrada de Acción: input para la herramienta
-Observación: resultado de la herramienta
-... (repetir Pensamiento/Acción/Entrada/Observación si es necesario)
-Pensamiento: Ya tengo la información necesaria
-Respuesta Final: respuesta completa y bien formateada
-
-¡IMPORTANTE! SOLO herramientas de LECTURA. NUNCA modificar datos.
-
-Historial:
-{{chat_history}}
-
-Pregunta: {{input}}
-Pensamiento: {{agent_scratchpad}}"""
+Pregunta: {input}
+Pensamiento: {agent_scratchpad}"""
 
     prompt = PromptTemplate(
         template=template,
