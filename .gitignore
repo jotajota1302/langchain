@@ -62,3 +62,6 @@ env/
 
 # Texto extraído temporal
 UTILS/texto_extraido.txt
+
+# Configuración Oracle (credenciales sensibles)
+UTILS/config_oracle.py

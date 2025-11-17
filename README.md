@@ -1,9 +1,10 @@
 # 🤖 Agentes LangChain + Ollama
 
-Este proyecto contiene **dos agentes inteligentes** construidos con LangChain que utilizan modelos locales a través de Ollama:
+Este proyecto contiene **tres agentes inteligentes** construidos con LangChain que utilizan modelos locales a través de Ollama:
 
 1. **Agente de Ejemplo** (`agente_ollama.py`) - Demostración básica con herramientas útiles
 2. **Agente de Estimación** (`agente_estimacion.py`) - Sistema profesional para estimar proyectos de desarrollo
+3. **Agente Oracle Analista** (`agente_oracle.py`) - Análisis y documentación de bases de datos Oracle (solo lectura)
 
 ## 🚀 Inicio Rápido
 
@@ -45,6 +46,9 @@ pip install -r UTILS/requirements.txt
 
 # Para el agente de estimación (incluye todo):
 pip install -r UTILS/requirements_estimacion.txt
+
+# Para el agente Oracle (incluye driver de Oracle):
+pip install -r UTILS/requirements_oracle.txt
 ```
 
 ### 4. Ejecutar los Agentes
@@ -56,8 +60,13 @@ python AGENTS/agente_ollama.py
 # Agente de estimación
 python AGENTS/agente_estimacion.py
 
-# Ejemplos programáticos de estimación
-python SCRIPTS/ejemplo_estimacion.py
+# Agente Oracle (requiere configuración previa)
+python SCRIPTS/configurar_oracle.py  # Primero configurar
+python AGENTS/agente_oracle.py       # Luego ejecutar
+
+# Ejemplos programáticos
+python SCRIPTS/ejemplo_estimacion.py  # Estimación
+python SCRIPTS/ejemplo_oracle.py      # Oracle
 ```
 
 ## 📁 Estructura del Proyecto
@@ -66,13 +75,17 @@ python SCRIPTS/ejemplo_estimacion.py
 LANGCHAIN/
 ├── AGENTS/                               # 🤖 Agentes inteligentes
 │   ├── agente_ollama.py                  #   → Agente de ejemplo (básico)
-│   └── agente_estimacion.py              #   → Agente de estimación profesional
+│   ├── agente_estimacion.py              #   → Agente de estimación profesional
+│   └── agente_oracle.py                  #   → Agente analista de Oracle (solo lectura)
 │
 ├── PROMPTS/                              # 📝 Prompts de los agentes
-│   └── agente-estimacion-desarrollo.md   #   → Prompt experto de estimación
+│   ├── agente-estimacion-desarrollo.md   #   → Prompt experto de estimación
+│   └── agente-oracle-analista.md         #   → Prompt analista de BD Oracle
 │
 ├── SCRIPTS/                              # 🔧 Scripts de ejemplo y utilidades
-│   ├── ejemplo_estimacion.py             #   → Ejemplos de uso del agente
+│   ├── ejemplo_estimacion.py             #   → Ejemplos de uso del agente de estimación
+│   ├── ejemplo_oracle.py                 #   → Ejemplos de uso del agente Oracle
+│   ├── configurar_oracle.py              #   → Configuración de credenciales Oracle
 │   └── procesar_gestic_rd.py             #   → Procesamiento de documentos GESTIC
 │
 ├── INPUT/                                # 📥 Archivos de entrada
@@ -84,11 +97,14 @@ LANGCHAIN/
 │
 ├── DOC/                                  # 📚 Documentación
 │   ├── GUIA_AGENTES_LANGCHAIN.md         #   → Guía completa de agentes
-│   └── GUIA_AGENTE_ESTIMACION.md         #   → Guía del agente de estimación
+│   ├── GUIA_AGENTE_ESTIMACION.md         #   → Guía del agente de estimación
+│   └── GUIA_AGENTE_ORACLE.md             #   → Guía del agente Oracle
 │
 ├── UTILS/                                # 🛠️ Utilidades y dependencias
 │   ├── requirements.txt                  #   → Dependencias básicas
 │   ├── requirements_estimacion.txt       #   → Dependencias para estimación
+│   ├── requirements_oracle.txt           #   → Dependencias para Oracle
+│   ├── config_oracle.py                  #   → Configuración Oracle (no en git)
 │   └── texto_extraido.txt                #   → Textos extraídos temporales
 │
 └── README.md                             # Este archivo
@@ -125,6 +141,17 @@ Sistema profesional de estimación de proyectos:
 - **➕ AgregarComponente**: Permite agregar componentes manualmente
 - **🧮 CalcularEstimacion**: Aplica ponderaciones GESTIC y factores de ajuste
 - **📊 ExportarExcel**: Genera estimación en plantilla Excel GESTIC
+
+### Agente Oracle Analista (`agente_oracle.py`) 🗄️
+
+Análisis y documentación de bases de datos Oracle (solo lectura):
+- **🔌 ConectarOracle**: Establece conexión segura a Oracle
+- **📊 ListarTablas**: Lista todas las tablas con información básica
+- **🔍 DescribirTabla**: Describe estructura completa de tablas
+- **🔗 ObtenerRelaciones**: Identifica Foreign Keys y dependencias
+- **📇 ObtenerIndices**: Lista índices y constraints
+- **📈 GenerarDiagramaER**: Crea diagramas ER en formato Mermaid
+- **📋 ConsultarMetadata**: Accede a diccionario de datos Oracle
 
 ## 💬 Ejemplos de Uso
 
@@ -172,6 +199,39 @@ Ejemplo de conversación:
 🤖 Agente: ✅ Excel generado en OUTPUT/estimacion_crm.xlsx
 ```
 
+### Agente Oracle
+
+```bash
+# Primero configurar credenciales
+python SCRIPTS/configurar_oracle.py
+
+# Modo interactivo
+python AGENTS/agente_oracle.py
+
+# Modo programático (ejemplos)
+python SCRIPTS/ejemplo_oracle.py 1  # Exploración básica
+python SCRIPTS/ejemplo_oracle.py 2  # Análisis de relaciones
+python SCRIPTS/ejemplo_oracle.py 3  # Análisis de tabla específica
+```
+
+Ejemplo de conversación:
+```
+👤 Tú: Conéctate a la base de datos
+🤖 Agente: ✅ Conectado a Oracle: indudescs.bd.gva.es/indudes
+
+👤 Tú: Muéstrame todas las tablas
+🤖 Agente: 📊 Encontradas 25 tablas: [lista...]
+
+👤 Tú: Describe la tabla USUARIOS
+🤖 Agente: 🔍 Estructura de USUARIOS: [columnas con tipos...]
+
+👤 Tú: ¿Qué relaciones tiene?
+🤖 Agente: 🔗 Relaciones: PEDIDOS.usuario_id → USUARIOS.id...
+
+👤 Tú: Genera un diagrama ER
+🤖 Agente: 📈 [Código Mermaid con diagrama]
+```
+
 ## 📚 Documentación
 
 ### Guías Disponibles
@@ -193,11 +253,26 @@ Ejemplo de conversación:
 - Estructura del Excel GESTIC
 - Personalización y troubleshooting
 
-**3. [agente-estimacion-desarrollo.md](PROMPTS/agente-estimacion-desarrollo.md)** - Prompt Experto
+**3. [GUIA_AGENTE_ORACLE.md](DOC/GUIA_AGENTE_ORACLE.md)** - Agente Oracle Analista 🗄️
+- Instalación y configuración de Oracle
+- Herramientas de solo lectura
+- Análisis de estructuras de BD
+- Generación de diagramas ER
+- Consultas al diccionario de datos
+- Seguridad y restricciones
+- Ejemplos de uso y troubleshooting
+
+**4. [agente-estimacion-desarrollo.md](PROMPTS/agente-estimacion-desarrollo.md)** - Prompt Experto Estimación
 - Criterios de estimación profesional
 - Métricas de referencia por tecnología
 - Factores multiplicadores
 - Formato de salida detallado
+
+**5. [agente-oracle-analista.md](PROMPTS/agente-oracle-analista.md)** - Prompt Analista Oracle
+- Flujo de análisis de BD
+- Mejores prácticas
+- Formato de respuestas
+- Vistas del diccionario Oracle
 
 ## 🔧 Configuración
 

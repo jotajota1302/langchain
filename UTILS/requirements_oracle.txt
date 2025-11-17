@@ -1,0 +1,21 @@
+# Dependencias para el Agente Oracle + LangChain + Ollama
+
+# LangChain Core (versiones actualizadas)
+langchain>=0.3.0
+langchain-community>=0.3.0
+langchain-core>=0.3.0
+
+# Ollama para modelos locales
+ollama>=0.1.6
+
+# Oracle Database Driver (python-oracledb)
+# Nota: Este es el driver oficial moderno de Oracle, reemplaza cx_Oracle
+oracledb>=2.0.0
+
+# Dependencias adicionales
+requests>=2.31.0
+pydantic>=2.5.0
+
+# Opcional: para visualización de diagramas
+# matplotlib>=3.7.0
+# graphviz>=0.20.0
